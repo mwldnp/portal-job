@@ -13,5 +13,9 @@ Route::get('/signup', fn() => Inertia::render('auth/signup'))->name('signup');
 Route::post('/signup', [AuthController::class, 'signup']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('dashboard'));
+    Route::get('/admin', fn() => Inertia::render('dashboard/index'));
+    Route::get('/admin/user', fn() => Inertia::render('dashboard/'));
+    Route::get('/admin/department', fn() => Inertia::render('dashboard/'));
+    Route::get('/admin/vacancy', fn() => Inertia::render('dashboard/'));
+    Route::get('/admin/applicant', fn() => Inertia::render('dashboard/'));
 });

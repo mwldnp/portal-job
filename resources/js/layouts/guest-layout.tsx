@@ -1,0 +1,17 @@
+import { DarkmodeToggle } from "@/components/custom/darkmode-toggle";
+import React from "react";
+
+export default function GuestLayout({ children }: { children: React.ReactNode }) {
+    return (
+
+        <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+            <div className="p-4 absolute top-0 right-0">
+                <DarkmodeToggle />
+            </div>
+            <div className="w-full max-w-sm">
+                {children}
+            </div>
+        </div>
+
+    )
+}

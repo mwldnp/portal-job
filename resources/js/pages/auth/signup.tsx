@@ -1,19 +1,108 @@
-import { DarkmodeToggle } from "@/components/custom/darkmode-toggle";
-import { SignupForm } from "@/pages/auth/_components/signup-form";
-import { Head } from "@inertiajs/react";
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import GuestLayout from "@/layouts/guest-layout"
+import { Head, useForm, usePage } from "@inertiajs/react"
+import { Loader2 } from "lucide-react"
+import { FormEvent } from "react"
+import { Toaster } from "sonner"
 
-export default function SignupPage() {
+export default function Signup({ ...props }: React.ComponentProps<typeof Card>) {
+
+    const { errors } = usePage().props
+
+    const { data, setData, post, processing } = useForm({
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+    })
+
+    const submit = (e: FormEvent) => {
+        e.preventDefault();
+
+        post('/signup')
+    }
+
     return (
         <>
-            <Head title="Signup" />
-            <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-                <div className="p-4 absolute top-0 right-0">
-                    <DarkmodeToggle />
-                </div>
-                <div className="w-full max-w-sm">
-                    <SignupForm />
-                </div>
-            </div>
+            <Toaster closeButton position="top-center" />
+            <Head title="Sign Up" />
+            <Card {...props}>
+                <CardHeader>
+                    <CardTitle>Create an account</CardTitle>
+                    <CardDescription>
+                        Enter your information below to create your account
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <form onSubmit={submit}>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                                <Input id="name" type="text" placeholder="John Doe" required value={data.name} onChange={e => setData('name', e.target.value)} />
+                                <FieldError>{errors.name}</FieldError>
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="email">Email</FieldLabel>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="m@example.com"
+                                    required
+                                    value={data.email}
+                                    onChange={e => setData('email', e.target.value)}
+                                />
+                                <FieldDescription>
+                                    We&apos;ll use this to contact you. We will not share your email
+                                    with anyone else.
+                                </FieldDescription>
+                                <FieldError>{errors.email}</FieldError>
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="password">Password</FieldLabel>
+                                <Input id="password" type="password" required value={data.password} onChange={e => setData('password', e.target.value)} />
+                                <FieldDescription>
+                                    Must be at least 8 characters long.
+                                </FieldDescription>
+                                <FieldError>{errors.password}</FieldError>
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="confirm-password">
+                                    Confirm Password
+                                </FieldLabel>
+                                <Input id="confirm-password" type="password" required value={data.password_confirmation} onChange={e => setData('password_confirmation', e.target.value)} />
+                                <FieldDescription>Please confirm your password.</FieldDescription>
+                            </Field>
+                            <FieldGroup>
+                                <Field>
+                                    <Button type="submit">{processing ? <Loader2 className="animate-spin" /> : ''} Create Account</Button>
+
+                                    <FieldDescription className="px-6 text-center">
+                                        Already have an account? <a href="/login">Sign in</a>
+                                    </FieldDescription>
+                                </Field>
+                            </FieldGroup>
+                        </FieldGroup>
+                    </form>
+                </CardContent>
+            </Card >
         </>
     )
 }
+
+Signup.layout = (page: React.ReactNode) => <GuestLayout children={page} />
