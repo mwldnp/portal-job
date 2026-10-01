@@ -1,3 +1,5 @@
+import { PageProps } from "@inertiajs/core";
+
 export type User = {
     id: number;
     name: string;
@@ -12,3 +14,9 @@ export type User = {
 export type Auth = {
     user: User;
 };
+
+export interface CustomPageProps extends PageProps {
+    auth: {
+        user: User | null;
+    };
+}
