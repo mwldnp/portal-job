@@ -31,7 +31,7 @@ interface Props {
     }
 }
 
-const DEPARTMENT_TABLE_HEADER = [
+const VACANCY_TABLE_HEADER = [
     'No', 'Position', 'Department', 'Job Description', 'Quota', 'Created By', 'Last Update'
 ]
 
@@ -44,7 +44,7 @@ export default function VacancyPage({ vacancies, departments, filters }: Props) 
         setOpenDialog(true);
     };
 
-    function handleDelete(vacancy: Vacancy) {
+    const handleDelete = (vacancy: Vacancy) => {
         if (!confirm(`Delete "${vacancy.position}"?`)) return;
         router.delete(`/admin/vacancy/${vacancy.id}`, {
             onSuccess: () => toast.success('Product deleted.'),
@@ -136,7 +136,7 @@ export default function VacancyPage({ vacancies, departments, filters }: Props) 
                 </Dialog>
             </header>
             <SearchBox routeName='/admin/vacancy' name='search' value={filters.search} filters={filters} placeholder='Search position...' />
-            <DataTable data={tableData} header={DEPARTMENT_TABLE_HEADER} />
+            <DataTable data={tableData} header={VACANCY_TABLE_HEADER} />
             <div className="py-3 flex items-center justify-end">
                 <AppPagination
                     links={vacancies.links}

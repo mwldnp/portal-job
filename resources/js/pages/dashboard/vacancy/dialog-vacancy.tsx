@@ -54,12 +54,12 @@ export default function DialogVacancy({
         const opts = {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success(vacancy ? '1 job successfully updated.' : '1 job added successfully.')
+                toast.success(vacancy ? '1 job updated successfully.' : '1 job added successfully.')
                 reset()
                 onClose()
             },
             onError: () => {
-                toast.error('Failed to create job vacancy')
+                toast.error('Failed to add job vacancy')
             },
         }
 

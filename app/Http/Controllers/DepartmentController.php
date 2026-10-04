@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DepartmentController extends Controller
@@ -12,11 +13,18 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::latest()->get();
+        $search = $request->input('search');
 
-        return Inertia::render('dashboard/department/index', ['departments' => $departments]);
+        $departments = Department::when($search, function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%");
+        })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('dashboard/department/index', ['departments' => $departments, 'filters' => $request->only(['search'])]);
     }
 
     /**
