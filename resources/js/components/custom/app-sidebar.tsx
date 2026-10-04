@@ -16,6 +16,7 @@ export function AppSidebar() {
     const user = auth.user
 
     const { url } = usePage()
+    const currentPath = url.split("?")[0]
 
     const { isMobile } = useSidebar()
 
@@ -49,13 +50,15 @@ export function AppSidebar() {
 
 
     return (
-        <Sidebar collapsible="offcanvas" variant="inset">
+        <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild className="flex items-center gap-2" size={"lg"}>
-                            <a href="" className="px-1.5 text-base! h-auto font-bold text-white hover:bg-primary hover:text-black">
-                                <Briefcase />
+                        <SidebarMenuButton asChild size={"lg"}>
+                            <a href="/" className=" text-base! h-auto font-bold">
+                                <div className="px-2">
+                                    <Briefcase />
+                                </div>
                                 Portal Job</a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -67,10 +70,16 @@ export function AppSidebar() {
                         <SidebarMenu className="flex flex-col gap-3">
                             {
                                 menus.map((item) => {
+                                    const isActive = item.url === '/admin' ? currentPath === item.url : currentPath.startsWith(item.url);
+
                                     return (
                                         <SidebarMenuItem key={item.title} className="flex items-center gap-2">
                                             <SidebarMenuButton asChild>
-                                                <a href={item.url} className={cn('text-sm px-2 h-auto', { 'bg-primary text-black hover:bg-primary! hover:text-black!': url === item.url })}>
+                                                <a href={item.url}
+                                                    className={cn(
+                                                        "text-sm px-2 h-auto",
+                                                        isActive && "bg-primary text-white hover:bg-primary hover:text-white"
+                                                    )}>
                                                     {item.icon && <item.icon />}
                                                     <span>{item.title}</span>
                                                 </a>
@@ -128,8 +137,6 @@ export function AppSidebar() {
                                         <LogOut opacity={0.5} />
                                         Logout
                                     </DropdownMenuItem>
-
-
                                 </DropdownMenuGroup>
                             </DropdownMenuContent>
                         </DropdownMenu>

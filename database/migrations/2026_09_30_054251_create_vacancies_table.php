@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dept_id')->constrained('departments')->cascadeOnDelete();
+            $table->foreignId('dept_id')->constrained('departments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('position');
             $table->integer('quota');
             $table->string('description');

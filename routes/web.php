@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,7 +20,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin', fn() => Inertia::render('dashboard/index'));
     Route::get('/admin/user', fn() => Inertia::render('dashboard/'));
-    Route::get('/admin/department', fn() => Inertia::render('dashboard/department/index'));
-    Route::get('/admin/vacancy', fn() => Inertia::render('dashboard/'));
-    Route::get('/admin/applicant', fn() => Inertia::render('dashboard/'));
+
+    Route::resource('admin/department', DepartmentController::class)->except(['create', 'show', 'edit']);
+    Route::resource('admin/vacancy', VacancyController::class)->except(['create', 'show', 'edit']);
+    // Route::get('/admin/department', fn() => Inertia::render('dashboard/department/index'));
+    // Route::get('/admin/vacancy', fn() => Inertia::render('dashboard/'));
+    // Route::get('/admin/applicant', fn() => Inertia::render('dashboard/'));
 });

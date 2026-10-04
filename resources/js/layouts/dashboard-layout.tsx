@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/custom/app-sidebar";
+import { DarkmodeToggle } from "@/components/custom/darkmode-toggle";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -9,13 +10,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const { url } = usePage()
 
-    const paths = url.split('/').slice(1)
+    const paths = url.split('?')[0].split('/').filter(Boolean)
 
     return (
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-1">
+                <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
                     <div className="flex w-full items-center px-4">
                         <SidebarTrigger className="-ml-1 mr-2 cursor-pointer" size={"lg"} />
 
@@ -53,6 +54,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </div>
 
+                    <div className="px-4">
+                        <DarkmodeToggle />
+                    </div>
                 </header>
                 <main className="p-4 pt-0">
                     {children}
