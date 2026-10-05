@@ -18,7 +18,6 @@ export const SearchBox: React.FC<SearchBoxProps> = ({
     routeName,
     filters = {},
     placeholder = "Search...",
-    debounce = 500,
 }) => {
     const [query, setQuery] = useState(value);
 

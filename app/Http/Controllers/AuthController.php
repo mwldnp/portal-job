@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -21,7 +22,8 @@ class AuthController extends Controller
         User::create([
             'name' => $credentials['name'],
             'email' => $credentials['email'],
-            'password' => Hash::make($credentials['password'])
+            'password' => Hash::make($credentials['password']),
+            'role' => 'guest'
         ]);
 
         return redirect('/login')->with('toast', [

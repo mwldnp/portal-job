@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/admin', fn() => Inertia::render('dashboard/index'));
-    Route::get('/admin/user', fn() => Inertia::render('dashboard/'));
+    Route::resource('admin/user', UserController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('admin/department', DepartmentController::class)->except(['create', 'show', 'edit']);
     Route::resource('admin/vacancy', VacancyController::class)->except(['create', 'show', 'edit']);
