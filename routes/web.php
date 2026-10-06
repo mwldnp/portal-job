@@ -3,12 +3,14 @@
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::post('/', [HomeController::class, 'home']);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', fn() => Inertia::render('auth/login'))->name('login')->middleware('guest');
@@ -18,11 +20,11 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
 });
 
-Route::middleware(['role.guest'])->group(function () {
-    // Route::get('/applicant', ApplicantController::class);
+Route::middleware(['auth', 'role.guest'])->group(function () {
+    // Route::resource('/applicant', ApplicantController::class);
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role.admin'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

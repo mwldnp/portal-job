@@ -10,12 +10,13 @@ interface PaginationProps {
     }[],
     currentPage: number
     lastPage: number
+    className?: string
 }
-export const AppPagination: React.FC<PaginationProps> = ({ links, currentPage, lastPage }) => {
+export const AppPagination: React.FC<PaginationProps> = ({ links, currentPage, lastPage, className }) => {
     if (lastPage <= 1) return null
 
     return (
-        <Pagination>
+        <Pagination className={className}>
             <PaginationContent>
                 {
                     links.map((link, index) => {

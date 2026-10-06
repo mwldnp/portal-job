@@ -78,7 +78,7 @@ export function AppSidebar() {
                                                 <a href={item.url}
                                                     className={cn(
                                                         "text-sm px-2 h-auto",
-                                                        isActive && "bg-primary text-white hover:bg-primary hover:text-white"
+                                                        isActive && "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                                     )}>
                                                     {item.icon && <item.icon />}
                                                     <span>{item.title}</span>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminRole;
 use App\Http\Middleware\EnsureGuestRole;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'role.guest' => EnsureGuestRole::class
+            'role.guest' => EnsureGuestRole::class,
+            'role.admin' => AdminRole::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
