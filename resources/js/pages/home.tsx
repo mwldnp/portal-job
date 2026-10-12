@@ -3,11 +3,17 @@ import { DarkmodeToggle } from "@/components/custom/darkmode-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CustomPageProps } from "@/types";
 import { Department } from "@/types/department";
 import { Vacancy } from "@/types/vacancy";
 import { Head, router, usePage } from "@inertiajs/react";
-import { Building2, User2 } from "lucide-react";
+import { Briefcase, Building2, LogOut, User2, UserCircle2 } from "lucide-react";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import SheetApplicant from "./sheet-applicant";
+import { useAuthUser } from "@/hooks/use-auth-user";
+import { useState } from "react";
+import { Toaster } from "sonner";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import DialogLogout from "@/components/custom/dialog-logout";
 
 interface Props {
     vacancies: {
@@ -18,35 +24,58 @@ interface Props {
         per_page: number;
     }
     departments: Department[];
-    filters: {
-        department?: string;
-    };
 }
 
-export default function HomePage({ vacancies, departments, filters }: Props) {
+export default function HomePage({ vacancies, departments }: Props) {
 
     const { url } = usePage()
-    const { auth } = usePage<CustomPageProps>().props
-    const user = auth.user
+    const user = useAuthUser()
+
+    const [openVacancyId, setOpenVacancyId] = useState<number | null>(null)
+    const [dialogLogout, setDialogLogout] = useState(false)
 
     const currentDepartment = new URLSearchParams(
         url.split('?')[1] || ''
     ).get('department')
 
+    const handleClose = () => {
+        setOpenVacancyId(null)
+    }
+
     return (
         <>
+            <Toaster closeButton position="top-center" />
             <Head title="Portal Job" />
-            <nav className="h-14 px-8 border-b w-full flex justify-center items-center">
-                <div className="w-full text-center">Logo</div>
-                <div className="ml-auto flex items-center gap-2">
+            <header className="h-18 px-8 border-b w-full flex justify-between items-center">
+                <div>Portal Job</div>
+                <div className="flex items-center gap-3">
                     {
-                        user.role === 'admin' ? (<Button onClick={() => router.get('/admin')}>Dashboard</Button>) : (
+                        !user ? (
                             <Button onClick={() => router.get('/login')}> Login</Button>
-                        )
+                        ) : user.role === 'admin' ? (
+                            <Button onClick={() => router.get('/admin')}>Dashboard</Button>
+                        ) : user.role === 'guest' ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="rounded-lg">
+                                        Hi, {user.name.split(' ', 1)}
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem onClick={() => setDialogLogout(true)} className="p-2 cursor-pointer">
+                                            <LogOut opacity={0.5} />
+                                            Logout
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : null
                     }
+
                     <DarkmodeToggle />
                 </div>
-            </nav >
+            </header >
             <section className="py-8 px-3 md:px-16 dark:bg-[#0f0f0f] min-h-screen">
                 <div className="flex flex-col items-start gap-6 w-full md:w-1/2">
                     <Badge variant={"outline"} className="p-4 text-sm">
@@ -96,9 +125,9 @@ export default function HomePage({ vacancies, departments, filters }: Props) {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {
-                        vacancies.data.map((vacancy, index) => {
+                        vacancies.data.map((vacancy) => {
                             return (
-                                <Card>
+                                <Card key={vacancy.position}>
                                     <CardHeader>
                                         <CardTitle className="font-bold">
                                             {vacancy.position}
@@ -106,9 +135,22 @@ export default function HomePage({ vacancies, departments, filters }: Props) {
                                         <CardDescription>
                                             {vacancy.description}
                                         </CardDescription>
-                                        <CardAction>
-                                            <Button variant='link' size='sm' className="p-0">Apply</Button>
-                                        </CardAction>
+                                        {
+                                            user.role != 'admin' && (
+                                                <CardAction>
+                                                    <Sheet
+                                                        open={openVacancyId === vacancy.id}
+                                                        onOpenChange={(open) => setOpenVacancyId(open ? vacancy.id : null)}
+                                                    >
+                                                        <SheetTrigger asChild>
+                                                            <Button variant='link' size='sm' className="p-0">Apply</Button>
+                                                        </SheetTrigger>
+                                                        <SheetApplicant vacancy={vacancy} onClose={handleClose} />
+                                                    </Sheet>
+                                                </CardAction>
+                                            )
+                                        }
+
                                     </CardHeader>
                                     <CardContent className="flex flex-wrap gap-3">
                                         <Badge variant='secondary' className="p-3 flex items-center gap-2"><Building2 />{vacancy.department.name}</Badge>
@@ -126,6 +168,8 @@ export default function HomePage({ vacancies, departments, filters }: Props) {
                     lastPage={vacancies.last_page}
                     className="mt-6"
                 />
+
+                <DialogLogout open={dialogLogout} onOpenChange={setDialogLogout} />
             </section >
         </>
     );

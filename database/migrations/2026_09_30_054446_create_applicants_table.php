@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('no_telp');
             $table->string('university');
             $table->string('major');
-            $table->integer('ipk');
+            $table->decimal('ipk', 3, 2)->unsigned();
             $table->string('status')->default('P');
             $table->string('path_cv');
             $table->timestamps();

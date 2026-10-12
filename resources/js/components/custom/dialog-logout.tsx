@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { router } from '@inertiajs/react'
 
 export default function DialogLogout({ open, onOpenChange }: {

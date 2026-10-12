@@ -21,7 +21,7 @@ class EnsureGuestRole
         }
 
         if (Auth::user()->role !== 'guest') {
-            return redirect()->route('dashboard')->with('error', 'Admin cannot access this page');
+            return redirect()->route('home')->with('error', 'Admin cannot access this page');
         }
 
         return $next($request);
