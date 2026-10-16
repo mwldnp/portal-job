@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Head, useForm, usePage } from "@inertiajs/react"
 import React, { FormEvent, useEffect } from "react"
 import { toast, Toaster } from "sonner"
-import { Loader2 } from "lucide-react"
+import { BriefcaseBusiness, Loader2 } from "lucide-react"
 import GuestLayout from "@/layouts/guest-layout"
 
 export default function Login({
@@ -49,13 +49,19 @@ export default function Login({
         <>
             <Toaster closeButton position="top-center" />
             <Head title="Login" />
-            <div className={cn("flex flex-col gap-6", className)} {...props}>
-                <Card>
+            <div className={cn("flex flex-col gap-12", className)} {...props}>
+                <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center items-center w-10 h-10 rounded-lg bg-secondary">
+                        <BriefcaseBusiness className="text-primary" />
+                    </div>
+                    <h1 className="text-2xl font-bold">
+                        <span className="text-primary">Karir</span>Ku
+                    </h1>
+                </div>
+
+                <Card className="space-y-4">
                     <CardHeader>
-                        <CardTitle>Login to your account</CardTitle>
-                        <CardDescription>
-                            Enter your email below to login to your account
-                        </CardDescription>
+                        <CardTitle className="text-center text-xl font-bold">Login</CardTitle>
                     </CardHeader>
 
                     <CardContent>
@@ -76,7 +82,7 @@ export default function Login({
                                     <div className="flex items-center">
                                         <FieldLabel htmlFor="password">Password</FieldLabel>
                                     </div>
-                                    <Input id="password" type="password" required value={data.password}
+                                    <Input id="password" type="password" required placeholder="********" value={data.password}
                                         onChange={e => setData('password', e.target.value)} />
                                 </Field>
                                 <Field>

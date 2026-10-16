@@ -1,7 +1,7 @@
 import { Briefcase, BriefcaseBusiness, Building2Icon, EllipsisVertical, FileUser, LayoutDashboard, LogOut, Users2 } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "../ui/sidebar";
 import { cn } from "cn";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { CustomPageProps } from "@/types";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -54,12 +54,15 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild size={"lg"}>
-                            <a href="/" className=" text-base! h-auto font-bold">
-                                <div className="px-2">
-                                    <Briefcase />
+                        <SidebarMenuButton asChild size={"lg"} onClick={() => router.get('/')} className="cursor-pointer">
+                            <div className="font-semibold">
+                                <div className="flex justify-center items-center p-2 rounded-md bg-secondary ">
+                                    <BriefcaseBusiness className="size-4 text-primary dark:text-white" />
                                 </div>
-                                Portal Job</a>
+                                <h1 className="text-xl font-bold">
+                                    <span className="text-primary">Karir</span>Ku
+                                </h1>
+                            </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
@@ -77,8 +80,8 @@ export function AppSidebar() {
                                             <SidebarMenuButton asChild>
                                                 <a href={item.url}
                                                     className={cn(
-                                                        "text-sm px-2 h-auto",
-                                                        isActive && "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                                                        "text-sm px-2 h-auto hover:bg-secondary!",
+                                                        isActive && "bg-primary text-white"
                                                     )}>
                                                     {item.icon && <item.icon />}
                                                     <span>{item.title}</span>

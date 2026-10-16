@@ -6,7 +6,7 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { Department } from "@/types/department";
 import { Vacancy } from "@/types/vacancy";
 import { Head, router, usePage } from "@inertiajs/react";
-import { Briefcase, Building2, LogOut, User2, UserCircle2 } from "lucide-react";
+import { Briefcase, BriefcaseBusiness, Building2, LogOut, User2, UserCircle2 } from "lucide-react";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import SheetApplicant from "./sheet-applicant";
 import { useAuthUser } from "@/hooks/use-auth-user";
@@ -47,7 +47,14 @@ export default function HomePage({ vacancies, departments }: Props) {
             <Toaster closeButton position="top-center" />
             <Head title="Portal Job" />
             <header className="h-18 px-8 border-b w-full flex justify-between items-center">
-                <div>Portal Job</div>
+                <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center items-center w-8 h-8 rounded-md bg-secondary">
+                        <BriefcaseBusiness className="text-primary w-4 dark:text-white" />
+                    </div>
+                    <h1 className="text-xl font-bold">
+                        <span className="text-primary">Karir</span>Ku
+                    </h1>
+                </div>
                 <div className="flex items-center gap-3">
                     {
                         !user ? (

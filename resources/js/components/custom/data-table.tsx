@@ -6,7 +6,7 @@ export default function DataTable({ header, data, isLoading }: { header: string[
     return (
         <div className="flex flex-col gap-4 w-full overflow-x-auto">
             <Card className="p-0">
-                <Table className=" w-full overflow-hidden rounded-lg">
+                <Table className="w-full overflow-hidden rounded-lg">
                     <TableHeader className="bg-muted sticky top-0 z-10">
                         <TableRow>
                             {

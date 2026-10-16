@@ -10,9 +10,9 @@ class Applicant extends Model
 {
     protected $fillable = ['vacancy_id', 'user_id', 'name', 'gender', 'dob', 'address', 'no_telp', 'university', 'major', 'ipk', 'status', 'path_cv'];
 
-    public function vacancy(): HasMany
+    public function vacancy(): BelongsTo
     {
-        return $this->hasMany(Vacancy::class);
+        return $this->belongsTo(Vacancy::class);
     }
 
     public function user(): BelongsTo

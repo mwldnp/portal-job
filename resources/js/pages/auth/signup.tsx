@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import GuestLayout from "@/layouts/guest-layout"
 import { Head, useForm, usePage } from "@inertiajs/react"
-import { Loader2 } from "lucide-react"
+import { BriefcaseBusiness, Loader2 } from "lucide-react"
 import { FormEvent } from "react"
 import { Toaster } from "sonner"
 
@@ -41,12 +41,18 @@ export default function Signup({ ...props }: React.ComponentProps<typeof Card>) 
         <>
             <Toaster closeButton position="top-center" />
             <Head title="Sign Up" />
-            <Card {...props}>
+            <div className="flex justify-center items-center gap-2 mb-12">
+                <div className="flex justify-center items-center w-10 h-10 rounded-lg bg-secondary">
+                    <BriefcaseBusiness className="text-primary" />
+                </div>
+                <h1 className="text-2xl font-bold">
+                    <span className="text-primary">Karir</span>Ku
+                </h1>
+            </div>
+
+            <Card {...props} className="space-y-4">
                 <CardHeader>
-                    <CardTitle>Create an account</CardTitle>
-                    <CardDescription>
-                        Enter your information below to create your account
-                    </CardDescription>
+                    <CardTitle className="text-center text-xl font-bold">Create Account</CardTitle>
                 </CardHeader>
 
                 <CardContent>
@@ -67,15 +73,11 @@ export default function Signup({ ...props }: React.ComponentProps<typeof Card>) 
                                     value={data.email}
                                     onChange={e => setData('email', e.target.value)}
                                 />
-                                <FieldDescription>
-                                    We&apos;ll use this to contact you. We will not share your email
-                                    with anyone else.
-                                </FieldDescription>
                                 <FieldError>{errors.email}</FieldError>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                                <Input id="password" type="password" required value={data.password} onChange={e => setData('password', e.target.value)} />
+                                <Input id="password" type="password" required value={data.password} onChange={e => setData('password', e.target.value)} placeholder="********" />
                                 <FieldDescription>
                                     Must be at least 8 characters long.
                                 </FieldDescription>
@@ -85,7 +87,7 @@ export default function Signup({ ...props }: React.ComponentProps<typeof Card>) 
                                 <FieldLabel htmlFor="confirm-password">
                                     Confirm Password
                                 </FieldLabel>
-                                <Input id="confirm-password" type="password" required value={data.password_confirmation} onChange={e => setData('password_confirmation', e.target.value)} />
+                                <Input id="confirm-password" type="password" required value={data.password_confirmation} onChange={e => setData('password_confirmation', e.target.value)} placeholder="********" />
                                 <FieldDescription>Please confirm your password.</FieldDescription>
                             </Field>
                             <FieldGroup>
